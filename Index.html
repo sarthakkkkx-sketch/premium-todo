@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Premium Todo App</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+background:linear-gradient(-45deg,#6C63FF,#3F8EFC,#00C9A7,#845EC2);
+
+background-size:400% 400%;
+
+animation:bg 12s ease infinite;
+
+overflow:hidden;
+
+}
+
+@keyframes bg{
+
+0%{background-position:0% 50%;}
+
+50%{background-position:100% 50%;}
+
+100%{background-position:0% 50%;}
+
+}
+
+.container{
+
+width:95%;
+
+max-width:450px;
+
+padding:30px;
+
+border-radius:30px;
+
+background:rgba(255,255,255,.12);
+
+backdrop-filter:blur(25px);
+
+border:1px solid rgba(255,255,255,.25);
+
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+color:white;
+
+animation:fade .7s;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+h1{
+
+text-align:center;
+
+font-size:34px;
+
+margin-bottom:8px;
+
+}
+
+.subtitle{
+
+text-align:center;
+
+opacity:.8;
+
+margin-bottom:25px;
+
+}
+
+.search{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+font-size:15px;
+
+margin-bottom:18px;
+
+background:rgba(255,255,255,.18);
+
+color:white;
+
+}
+
+.search::placeholder{
+
+color:white;
+
+opacity:.6;
+
+}
+
+.row{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:20px;
+
+}
+
+#taskInput{
+
+flex:1;
+
+padding:15px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+font-size:15px;
+
+background:white;
+
+color:#333;
+
+}
+
+#priority{
+
+width:95px;
+
+border:none;
+
+outline:none;
+
+border-radius:15px;
+
+padding:10px;
+
+font-weight:600;
+
+}
+
+.add{
+
+border:none;
+
+width:60px;
+
+border-radius:15px;
+
+background:#00C896;
+
+font-size:25px;
+
+color:white;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.add:hover{
+
+transform:scale(1.08);
+
+background:#00b384;
+
+}
+
+.stats{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:15px;
+
+font-size:14px;
+
+}
+
+.progress{
+
+width:100%;
+
+height:10px;
+
+border-radius:20px;
+
+background:rgba(255,255,255,.2);
+
+overflow:hidden;
+
+margin-bottom:20px;
+
+}
+
+.bar{
+
+height:100%;
+
+width:0%;
+
+background:lime;
+
+transition:.4s;
+
+}
+
+ul{
+
+list-style:none;
+
+max-height:330px;
+
+overflow:auto;
+
+}
+
+ul::-webkit-scrollbar{
+
+width:5px;
+
+}
+
+ul::-webkit-scrollbar-thumb{
+
+background:white;
+
+border-radius:20px;
+
+}
+li{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:rgba(255,255,255,.15);
+
+backdrop-filter:blur(12px);
+
+padding:15px;
+
+margin-bottom:12px;
+
+border-radius:18px;
+
+animation:slide .35s;
+
+transition:.3s;
+
+}
+
+li:hover{
+
+transform:translateY(-3px);
+
+background:rgba(255,255,255,.22);
+
+}
+
+@keyframes slide{
+
+from{
+
+opacity:0;
+
+transform:translateX(-30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateX(0);
+
+}
+
+}
+
+.left{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+flex:1;
+
+}
+
+.left input{
+
+width:20px;
+
+height:20px;
+
+cursor:pointer;
+
+}
+
+.task{
+
+font-size:15px;
+
+word-break:break-word;
+
+}
+
+.done{
+
+text-decoration:line-through;
+
+opacity:.5;
+
+}
+
+.tag{
+
+padding:5px 10px;
+
+border-radius:20px;
+
+font-size:11px;
+
+font-weight:600;
+
+margin-right:10px;
+
+}
+
+.low{
+
+background:#00C853;
+
+}
+
+.medium{
+
+background:#FFB300;
+
+}
+
+.high{
+
+background:#FF5252;
+
+}
+
+.delete{
+
+border:none;
+
+background:#ff3b5c;
+
+color:white;
+
+width:38px;
+
+height:38px;
+
+border-radius:12px;
+
+font-size:18px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.delete:hover{
+
+transform:rotate(12deg) scale(1.1);
+
+background:#ff1744;
+
+}
+
+.footer{
+
+text-align:center;
+
+margin-top:18px;
+
+opacity:.8;
+
+font-size:13px;
+
+}
+
+@media(max-width:500px){
+
+.container{
+
+padding:20px;
+
+}
+
+h1{
+
+font-size:28px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✨ Premium Todo</h1>
+
+<p class="subtitle">Stay productive every day.</p>
+
+<input
+type="text"
+class="search"
+id="search"
+placeholder="🔍 Search tasks..."
+>
+
+<div class="row">
+
+<input
+type="text"
+id="taskInput"
+placeholder="Add a task..."
+>
+
+<select id="priority">
+
+<option>Low</option>
+
+<option>Medium</option>
+
+<option>High</option>
+
+</select>
+
+<button class="add" id="addBtn">+</button>
+
+</div>
+
+<div class="stats">
+
+<span id="count">0 Tasks</span>
+
+<span id="percent">0%</span>
+
+</div>
+
+<div class="progress">
+
+<div class="bar" id="bar"></div>
+
+</div>
+
+<ul id="list"></ul>
+
+<div class="footer">
+
+Made with ❤️ using HTML CSS & JS
+
+</div>
+
+</div>
+
+<script>const taskInput = document.getElementById("taskInput");
+const priority = document.getElementById("priority");
+const addBtn = document.getElementById("addBtn");
+const list = document.getElementById("list");
+const search = document.getElementById("search");
+const count = document.getElementById("count");
+const percent = document.getElementById("percent");
+const bar = document.getElementById("bar");
+
+let tasks = JSON.parse(localStorage.getItem("premiumTasks")) || [];
+
+function saveTasks(){
+    localStorage.setItem("premiumTasks", JSON.stringify(tasks));
+}
+
+function updateStats(){
+
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.done).length;
+
+    count.innerText = `${completed}/${total} Completed`;
+
+    let p = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+    percent.innerText = p + "%";
+    bar.style.width = p + "%";
+}
+
+function renderTasks(){
+
+    list.innerHTML = "";
+
+    const keyword = search.value.toLowerCase();
+
+    tasks.forEach((task,index)=>{
+
+        if(!task.text.toLowerCase().includes(keyword))
+            return;
+
+        const li = document.createElement("li");
+
+        const left = document.createElement("div");
+        left.className = "left";
+
+        const check = document.createElement("input");
+        check.type = "checkbox";
+        check.checked = task.done;
+
+        check.onchange = ()=>{
+
+            tasks[index].done = check.checked;
+            saveTasks();
+            renderTasks();
+
+        };
+
+        const text = document.createElement("span");
+        text.className = "task";
+
+        if(task.done)
+            text.classList.add("done");
+
+        text.innerText = task.text;
+
+        const tag = document.createElement("span");
+        tag.className = "tag";
+
+        if(task.priority==="Low")
+            tag.classList.add("low");
+
+        if(task.priority==="Medium")
+            tag.classList.add("medium");
+
+        if(task.priority==="High")
+            tag.classList.add("high");
+
+        tag.innerText = task.priority;
+
+        const del = document.createElement("button");
+        del.className = "delete";
+        del.innerHTML = "🗑️";
+
+        del.onclick = ()=>{
+
+            li.style.transform = "translateX(100px)";
+            li.style.opacity = "0";
+
+            setTimeout(()=>{
+
+                tasks.splice(index,1);
+
+                saveTasks();
+
+                renderTasks();
+
+            },300);
+
+        };
+
+        left.appendChild(check);
+        left.appendChild(text);
+
+        li.appendChild(left);
+        li.appendChild(tag);
+        li.appendChild(del);
+
+        list.appendChild(li);
+
+    });
+
+    updateStats();
+}
+
+addBtn.onclick = ()=>{
+
+    const txt = taskInput.value.trim();
+
+    if(txt===""){
+        alert("Please enter a task.");
+        return;
+    }
+
+    tasks.unshift({
+        text:txt,
+        priority:priority.value,
+        done:false
+    });
+
+    taskInput.value = "";
+
+    saveTasks();
+
+    renderTasks();
+
+};
+
+taskInput.addEventListener("keypress",function(e){
+
+    if(e.key==="Enter")
+        addBtn.click();
+
+});
+
+search.addEventListener("input",renderTasks);
+window.onload = () => {
+    renderTasks();
+};
+
+// Optional: clear input with Escape key
+taskInput.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        taskInput.value = "";
+    }
+});
+
+</script>
+
+</body>
+</html>
